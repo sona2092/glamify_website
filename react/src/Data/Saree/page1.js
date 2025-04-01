@@ -119,7 +119,7 @@ export const sareePage1=[
     {
         "image": "https://rukminim1.flixcart.com/image/612/612/xif0q/sari/7/i/7/free-sari-onestacreation-stitched-original-imagk7kgquderuqk.jpeg?q=70",
         "brand": "ShiVAdit Ethnic",
-        "title": "Embroidered, Self Design, Applique Banarasi Art Silk,\n                          N...",
+        "title": "Embroidered, Self Design, Applique Banarasi Art Silk",
         "color": "Black",
         "selling_price": "₹649",
         "price": "₹2,499",

@@ -31,6 +31,7 @@ export default function Navigation() {
   const openUserMenu = Boolean(anchorEl);
   const jwt = localStorage.getItem("jwt");
   const location = useLocation();
+  const [openCategories, setOpenCategories] = useState({});
 
   useEffect(() => {
     if (jwt) {
@@ -38,6 +39,13 @@ export default function Navigation() {
       dispatch(getCart(jwt));
     }
   }, [jwt]);
+
+  const toggleCategory = (categoryName) => {
+    setOpenCategories((prev) => ({
+      ...prev,
+      [categoryName]: !prev[categoryName],
+    }));
+  };
 
   const handleUserClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -117,30 +125,44 @@ export default function Navigation() {
                   </button>
                 </div>
 
-                {/* Category Navigation for Mobile */}
+                {/* Category Navigation for Mobile with Dropdowns */}
                 <div className="px-4 pb-6">
                   {navigation.categories.map((category) => (
                     <div key={category.name} className="mb-4">
-                      <p className="font-medium text-gray-900">{category.name}</p>
-                      <ul className="mt-2 space-y-2">
-                        {category.sections.map((section) => (
-                          <li key={section.name} className="text-gray-700">
-                            <p className="font-medium text-gray-700">{section.name}</p>
-                            <ul className="ml-4 space-y-1">
-                              {section.items.map((item) => (
-                                <li key={item.name}>
-                                  <button
-                                    className="text-gray-500 hover:text-gray-900"
-                                    onClick={() => handleCategoryClick(category, section, item, () => setOpen(false))}
-                                  >
-                                    {item.name}
-                                  </button>
-                                </li>
-                              ))}
-                            </ul>
-                          </li>
-                        ))}
-                      </ul>
+                      <button
+                        className="font-medium text-gray-900 w-full text-left"
+                        onClick={() => toggleCategory(category.name)}
+                      >
+                        {category.name}
+                      </button>
+                      {openCategories[category.name] && (
+                        <ul className="mt-2 space-y-2 ml-4">
+                          {category.sections.map((section) => (
+                            <li key={section.name} className="text-gray-700">
+                              <button
+                                className="font-medium text-gray-700 w-full text-left"
+                                onClick={() => toggleCategory(section.name)}
+                              >
+                                {section.name}
+                              </button>
+                              {openCategories[section.name] && (
+                                <ul className="ml-4 space-y-1">
+                                  {section.items.map((item) => (
+                                    <li key={item.name}>
+                                      <button
+                                        className="text-gray-500 hover:text-gray-900"
+                                        onClick={() => handleCategoryClick(category, section, item, () => setOpen(false))}
+                                      >
+                                        {item.name}
+                                      </button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                   ))}
                 </div>
